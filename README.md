@@ -174,19 +174,23 @@ The next step is to point the root URLconf at the polls.urls module. In mysite/u
 
 ```bash
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include path
+from django.views.generic import RedirectView # for redirecting polls/ to be redirected to root URL
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='/polls/')), # Redirect root URL to /polls/ on page load.
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
+
+
 ```
 
 The include() function in Django is used to link to another set of URL configurations. When Django sees include(), it removes the matched part of the URL and uses the rest of the URL to find views based on the linked URL configurations.
 
 In simpler terms, include() lets you organize and reuse URL patterns. For example, if you have URL patterns for a polls app in polls/urls.py, you can use them under different paths like “/polls/”, “/fun_polls/”, or “/content/polls/”, without changing the app itself.
 
-For example, if you want to use paths like "/content/polls/" or "/fun_polls/", you would modify the URL patterns list to include those paths. 
+For example, if you want to use paths like "/content/polls/" , you would modify the URL patterns list to include those paths. 
 
 For "/content/polls/":
 ```bash
@@ -199,20 +203,7 @@ urlpatterns = [
 ]
 
 ```
-For "/fun_polls/":
-```bash
-from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import RedirectView # for redirecting polls/ to be redirected ro root URL
 
-urlpatterns = [
-    path('', RedirectView.as_view(url='/polls/')), # Redirect root URL to /polls/ on page load.
-    path('polls/', include('polls.urls')),
-    path('admin/', admin.site.urls),
-]
-
-
-```
 
 
 # ⭐ Step 5 - Finall Step 🥳:
